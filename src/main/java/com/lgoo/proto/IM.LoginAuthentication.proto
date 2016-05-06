@@ -1,0 +1,41 @@
+package GuiYi.IM.Login;
+//option java_package = "com.mogujie.tt.protobuf";
+//option optimize_for = LITE_RUNTIME;
+
+
+//Authentication cmd id
+enum LoginCmdID
+{
+	//login authentication
+	CID_Login_Authentication_Req = 0x3001;
+	CID_Login_Authentication_Rsp = 0x3002;
+}
+
+enum CustType
+{
+	CUST_TYPE_2 = 2;     //成员企业
+	CUST_TYPE_3 = 3;     //托管企业
+	CUST_TYPE_4 = 4;     //服务公司
+	CUST_TYPE_5 = 5;     //管理公司
+	CUST_TYPE_6 = 6;     //地区平台
+}
+
+
+message MessageLoginAuthticationReq
+{
+	required string resNo = 1;		//互生号
+	required string userName = 2; 		//操作员账号
+	required string loginPwd = 3;		//登陆密码
+	optional string	pwdVer = 4;		//密码版本号
+	required string randomToken = 5;	//随机token
+	optional string loginIp = 6;		//登录IP
+	required CustType custType = 7;		//客户类型
+
+
+}
+
+
+message MessageLoginAuthticationRsp
+{
+	required string result_json = 1;       //验证结果
+}

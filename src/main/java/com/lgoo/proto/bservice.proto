@@ -1,0 +1,10 @@
+option java_package = "com.gy.hsim.netty.proto"; 
+option java_outer_classname = "BserviceProto"; 
+
+message BserviceEntity {
+	optional string imSystem = 1;
+	optional string toUid = 2;
+	optional string ifOperator = 3;
+	optional string pageNum = 4;
+	optional string pageSize = 5;
+}

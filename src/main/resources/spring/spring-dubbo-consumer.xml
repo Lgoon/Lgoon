@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"    
+    xsi:schemaLocation="http://www.springframework.org/schema/beans    
+        http://www.springframework.org/schema/beans/spring-beans.xsd    
+        http://code.alibabatech.com/schema/dubbo    
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">    
+	
+	 <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+    <dubbo:application name="servers-app-consumers" />
+    
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+  	<dubbo:registry  protocol="zookeeper" address="192.168.229.23:2181" />  
+	<!-- 消费服务 begin-->
+    
+	<!-- 关闭所有服务的启动时检查 -->
+	<dubbo:consumer check="false"/>
+	<!-- 搜索引擎 -->
+    <!-- <dubbo:reference id="userInfoService" interface="com.gy.hsxt.uc.search.api.IUCUserInfoService"  timeout="8000" retries="0"  check="false" version="1.0.0"/> -->
+	<dubbo:reference id="userInfoSearchService" interface="com.gy.hsxt.uc.search.api.IUCUserInfoSearchService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="authService" interface="com.gy.hsxt.uc.as.api.common.IUCAsAuthService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCAsOperatorService" interface="com.gy.hsxt.uc.as.api.operator.IUCAsOperatorService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCUserInfoService" interface="com.gy.hsxt.uc.search.api.IUCUserInfoService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCAsNetworkInfoService" interface="com.gy.hsxt.uc.as.api.common.IUCAsNetworkInfoService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCAsEntService" interface="com.gy.hsxt.uc.as.api.ent.IUCAsEntService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCLoginService" interface="com.gy.hsxt.uc.as.api.common.IUCLoginService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCAsCardHolderService" interface="com.gy.hsxt.uc.as.api.consumer.IUCAsCardHolderService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCAsNoCardHolderService" interface="com.gy.hsxt.uc.as.api.consumer.IUCAsNoCardHolderService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	<dubbo:reference id="iUCAsTokenService" interface="com.gy.hsxt.uc.as.api.common.IUCAsTokenService"  timeout="8000" retries="0"  check="false" version="1.0.0"/>
+	
+	<!-- 消费服务  end-->
+</beans>
