@@ -1,11 +1,8 @@
 package com.lgoo.service.impl;
 
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +13,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import com.lgoo.service.DispatchService;
 import com.lgoo.util.Cmd;
 import com.lgoo.util.NettyService;
-import com.lgoo.util.SpringUtil;
 
 @NettyService(sid = 0)
 public class DispatchServiceImpl implements DispatchService {
@@ -35,8 +31,7 @@ public class DispatchServiceImpl implements DispatchService {
 		ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver();
 		//com\lgoo\service\impl
 		Resource[] res = rpr.getResources("/com/lgoo/service/impl/*");
-		Enumeration<URL> url = DispatchServiceImpl.class.getClassLoader().getSystemResources("*");
-		System.out.println("url==>" + url.hasMoreElements());
+		
 		System.out.println("res==>" + res.length);
 		
 		String[] clazzs = new String[res.length];
