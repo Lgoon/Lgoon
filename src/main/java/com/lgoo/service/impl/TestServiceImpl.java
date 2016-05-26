@@ -5,9 +5,9 @@ import com.lgoo.service.TestService;
 import com.lgoo.util.ByteUtils;
 import com.lgoo.util.Cmd;
 import com.lgoo.util.HeadEntity;
-import com.lgoo.util.NettyService;
+import com.lgoo.util.SocketService;
 
-@NettyService(sid = 1)
+@SocketService(sid = 1)
 public class TestServiceImpl implements TestService {
 	
 	@Cmd(cid = 11)

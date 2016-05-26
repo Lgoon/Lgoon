@@ -7,6 +7,6 @@ import java.lang.annotation.RetentionPolicy;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NettyService {
-	int sid();
+public @interface SocketService {
+	short sid();
 }

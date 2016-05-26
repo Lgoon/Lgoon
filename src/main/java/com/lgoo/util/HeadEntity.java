@@ -1,14 +1,13 @@
 package com.lgoo.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class HeadEntity {
 
-	private byte[] bs = new byte[25];
+	public static final int HEAD_LEN = 32;
+	
+	private byte[] bs = new byte[HEAD_LEN];
 
 	public HeadEntity(){
 		
@@ -19,14 +18,10 @@ public class HeadEntity {
 	}
 
 	public String getTag() {
-		ByteBuffer byteBuff = ByteBuffer.wrap(bs, 0, 2);
-		byte[] b = new byte[2];
-		byteBuff.get(b);
-		return new String(b);
+		return (char)bs[0] + "" +  (char)bs[1];
 	}
 	
 	public void setTag(byte a,byte b) {
-		ByteBuffer byteBuff = ByteBuffer.wrap(bs, 0, 2);
 		bs[0] = a;
 		bs[1] = b;
 	}

@@ -4,24 +4,26 @@ import java.nio.ByteBuffer;
 
 public class ByteUtils {
 	
+	private static int HEAD_LEN = 32;
+	
 	public static byte[] getHeader(byte[] bs) {
 		ByteBuffer byteBuf = ByteBuffer.wrap(bs);
-		byte[] head = new byte[25];
-		byteBuf.get(head, 0, 25);
+		byte[] head = new byte[HEAD_LEN];
+		byteBuf.get(head, 0, HEAD_LEN);
 		return head;
 	}
 
 	public static byte[] getContent(byte[] bs) {
-		ByteBuffer byteBuf = ByteBuffer.wrap((byte[]) bs, 25, bs.length - 25);
-		byte[] content = new byte[bs.length - 25];
-		byteBuf.get(content, 0, bs.length - 25);
+		ByteBuffer byteBuf = ByteBuffer.wrap((byte[]) bs, HEAD_LEN, bs.length - HEAD_LEN);
+		byte[] content = new byte[bs.length - HEAD_LEN];
+		byteBuf.get(content, 0, bs.length - HEAD_LEN);
 		return content;
 	}
 	
 	public static byte[] getContent(byte[] bs,int length) {
-		ByteBuffer byteBuf = ByteBuffer.wrap((byte[]) bs, 25, length - 25);
-		byte[] content = new byte[length - 25];
-		byteBuf.get(content, 0, length - 25);
+		ByteBuffer byteBuf = ByteBuffer.wrap((byte[]) bs, HEAD_LEN, length - HEAD_LEN);
+		byte[] content = new byte[length - HEAD_LEN];
+		byteBuf.get(content, 0, length - HEAD_LEN);
 		return content;
 	}
 	

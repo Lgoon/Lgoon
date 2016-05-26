@@ -1,4 +1,4 @@
-package com.lgoo.service.impl;
+package com.lgoo.socket.handler.impl;
 
 
 import java.lang.annotation.Annotation;
@@ -11,13 +11,15 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import com.lgoo.service.DispatchService;
+import com.lgoo.socket.handler.DispatchHandler;
 import com.lgoo.util.Cmd;
 import com.lgoo.util.SocketService;
 
-@SocketService(sid = 0)
-public class DispatchServiceImpl implements DispatchService {
+@SocketService(sid = 0x0000)
+public class DispatchHandlerImpl implements DispatchHandler {
 	
-	private static Map cmdMap = new HashMap();
+	private static Map<Short,Object[]> cmdMap = new HashMap<Short,Object[]>();
+	private static Map<Short,Map<Short,Object[]>> sidMap = new HashMap<Short,Map<Short,Object[]>>();
 	
 	static {
 		try {
@@ -30,7 +32,7 @@ public class DispatchServiceImpl implements DispatchService {
 	private static void init() throws Exception  {
 		ResourcePatternResolver rpr = new PathMatchingResourcePatternResolver();
 		//com\lgoo\service\impl
-		Resource[] res = rpr.getResources("/com/lgoo/service/impl/*");
+		Resource[] res = rpr.getResources("/com/lgoo/socket/handler/impl/*");
 		
 		System.out.println("res==>" + res.length);
 		
@@ -59,7 +61,7 @@ public class DispatchServiceImpl implements DispatchService {
 	            	SocketService service = (SocketService)annotation;
 	            	
 	            	Method[] methods = clazz.getMethods();
-	            	
+	            	Map<Short,Object[]> methodMap = new HashMap<Short,Object[]>();
 	            	for(Method method : methods) {
 	            		
 	            		Annotation[] mannos = method.getAnnotations();
@@ -69,16 +71,20 @@ public class DispatchServiceImpl implements DispatchService {
 		            		if (mType == Cmd.class){
 		     	            	Cmd cmd = (Cmd)manno;
 		     	            	cmdMap.put(cmd.cid(), new Object[] {clazz,method});
+		     	            	methodMap.put(cmd.cid(), new Object[] {clazz,method});
 		     	            }
 	            		}
 	            	}
+	            	
+	            	sidMap.put(service.sid(), methodMap);
+	            	
 	            }
 	        }
 		}
 	}
 	
 	@Override
-	public Object dispatch(short cid,byte[] args) throws Exception {
+	public Object dispatch(short cid,Object... args) throws Exception {
 		Object[] patch = (Object[]) cmdMap.get(cid);
 		if (patch != null) {
 			Class clazz = (Class) patch[0];
@@ -90,6 +96,21 @@ public class DispatchServiceImpl implements DispatchService {
 			return null;
 		}
 	 }
+
+	@Override
+	public Object dispatch(short sid, short cid, Object... args)
+			throws Exception {
+		Object[] patch = (Object[]) cmdMap.get(cid);
+		if (patch != null) {
+			Class clazz = (Class) patch[0];
+			Method method = (Method) patch[1];
+			
+			Object o = clazz.newInstance();
+			return method.invoke(o, args);
+		} else {
+			return null;
+		}
+	}
 	
 	
 	

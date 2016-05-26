@@ -12,11 +12,11 @@ import com.lgoo.service.LoginService;
 import com.lgoo.util.ByteUtils;
 import com.lgoo.util.Cmd;
 import com.lgoo.util.HeadEntity;
-import com.lgoo.util.NettyService;
+import com.lgoo.util.SocketService;
 import com.lgoo.util.SpringUtil;
 import com.lgoo.util.StringEncrypt;
 
-@NettyService (sid = 2)
+@SocketService (sid = 2)
 public class LoginServiceImpl implements LoginService {
 	
 	@Cmd(cid = (short)21)
