@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import com.lgoo.socket.client.listener.ContextListener;
 import com.lgoo.socket.client.listener.SocketListener;
 
 public class Connection {
@@ -26,7 +27,6 @@ public class Connection {
 		listenerManager.initDefaultLisener();
 		conneced = true;
 		listenerManager.lisen();
-		
 	}
 	
 	public void reconnect() throws Exception {
@@ -71,6 +71,11 @@ public class Connection {
 	
 	public void addListen(SocketListener listener) {
 		listenerManager.addLisener(listener);
+	}
+	
+	public void callCommd(short cid) {
+		ContextListener context = listenerManager.getContextListener();
+		context.pushCmd(cid);
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Scanner;
+import java.util.Stack;
 
 import com.lgoo.socket.client.Connection;
 import com.lgoo.socket.handler.DispatchHandler;
@@ -18,6 +19,12 @@ public class ContextListener extends AbstractListener {
 	}
 
 	private byte[] caches = new byte[0];
+	
+	private Stack<Short> cmdStack = new Stack<>();
+	
+	public void pushCmd(short cid) {
+		cmdStack.push(cid);
+	}
 
 	@Override
 	public void doRead(InputStream in) throws Exception {
@@ -65,17 +72,11 @@ public class ContextListener extends AbstractListener {
 
 	@Override
 	public void doWrite(OutputStream out) throws Exception {
-		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("你已连接服务器，请输入cmdid 选择操作!");
-		String c = sc.next();
-		short cid;
-		if (c.indexOf("0x") != -1) {
-			c = c.substring(2);
-			cid = Short.parseShort(c,16);
-		} else {
-			cid = Short.parseShort(c,16);
+		if (cmdStack.size() == 0) {
+			return;
 		}
+		short cid = cmdStack.pop();
 		
 		if (!isActive()) {
 			return;

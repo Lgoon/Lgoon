@@ -1,8 +1,8 @@
 package com.lgoo.socket.client.listener;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import com.lgoo.socket.client.listener.SocketListener;
 
 import com.lgoo.socket.client.Connection;
 
@@ -34,7 +34,8 @@ public abstract class AbstractListener implements SocketListener {
 		this.writeThread = new Thread() {
 			public void run(){
 				try {
-					while (true && isActive()) {
+					while (isActive()) {
+						Thread.sleep(1);
 						doWrite(connection.getOutputStream());
 					}
 				} catch (Exception e) {
@@ -49,7 +50,8 @@ public abstract class AbstractListener implements SocketListener {
 		this.readThread = new Thread() {
 			public void run(){
 				try {
-					while (true && isActive()) {
+					while (isActive()) {
+						Thread.sleep(1);
 						doRead(connection.getInputStream());
 					}
 				} catch (Exception e) {

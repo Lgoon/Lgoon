@@ -81,6 +81,7 @@ public class DispatchHandlerImpl implements DispatchHandler {
 	            }
 	        }
 		}
+		System.gc();
 	}
 	
 	@Override
